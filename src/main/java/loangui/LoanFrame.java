@@ -142,12 +142,54 @@ public class LoanFrame extends JFrame {
                     cloneBtn.getAction().setEnabled(!lIsDiffed);
                     simulBtn.getAction().setEnabled(!lIsDiffed);
                     controler.setDiffed(lIsDiffed);
-                    entryPanel.itemChanged(lItem);
-                    optionPanel.itemChanged(lItem);
+                    entryPanel.itemChanged( lItem.lMensHorsAssIC,
+                            lItem.lMensAssIC ,
+                            lItem.dureeIC ,
+                            lItem.amountIC ,
+                            lItem.fraisIC ,
+                            lItem.lTauxEffIC ,
+                            lItem.salaryIC,
+                            lItem.insuranceIC ,
+                            lItem.lNotFeeIC ,
+                            lItem.mensualiteIC ,
+                            lItem.tauxIC ,
+                            lItem.isMontantIC ,
+                            lItem.isTauxIC ,
+                            lItem.isDureeIC,
+                            lItem.isMensualiteIC);
+                    optionPanel.itemChanged( lItem.lMensHorsAssIC,
+                            lItem.lMensAssIC ,
+                            lItem.dureeIC ,
+                            lItem.amountIC ,
+                            lItem.fraisIC ,
+                            lItem.lTauxEffIC ,
+                            lItem.salaryIC,
+                            lItem.insuranceIC ,
+                            lItem.lNotFeeIC ,
+                            lItem.mensualiteIC ,
+                            lItem.tauxIC ,
+                            lItem.isMontantIC ,
+                            lItem.isTauxIC ,
+                            lItem.isDureeIC,
+                            lItem.isMensualiteIC);;
                     if (lIsDiffed) {
-                        ((TabbedPanel) tabPane.getSelectedComponent()).itemDiffed(model.getFirst(lItem), model.getSecond(lItem));
+                        ((TabbedPanel) tabPane.getSelectedComponent()).itemDiffed( lItem.lDiffMensHorsAss, lItem.lDiffMensAss, lItem.lDiffMens, lItem.lDiffCoutHorsAss, lItem.lDiffCoutAss, lItem.lDiffCout, lItem.lDiffTauxEff, lItem.lDiffPctSalary,lItem.lDiffPerYear);
                     } else {
-                        ((TabbedPanel) tabPane.getSelectedComponent()).itemChanged(lItem);
+                        ((TabbedPanel) tabPane.getSelectedComponent()).itemChanged( lItem.lMensHorsAssIC,
+                                lItem.lMensAssIC ,
+                                lItem.dureeIC ,
+                                lItem.amountIC ,
+                                lItem.fraisIC ,
+                                lItem.lTauxEffIC ,
+                                lItem.salaryIC,
+                                lItem.insuranceIC ,
+                                lItem.lNotFeeIC ,
+                                lItem.mensualiteIC ,
+                                lItem.tauxIC ,
+                                lItem.isMontantIC ,
+                                lItem.isTauxIC ,
+                                lItem.isDureeIC,
+                                lItem.isMensualiteIC);
                     }
                 }
             }

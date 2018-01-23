@@ -171,18 +171,31 @@ public class EntryPanel extends JPanel implements ChangeListener {
     /**
      * Fill the components with their respective values
      *
-     * @param pItem the Loan item corresponding to this panel
      */
     @Override
-    public void itemChanged(final LoanItem pItem) {
-        monTF.setText(FormatterFactory.fmtCurrencyNoSymbol(pItem.getMensualite()));
-        tauTF.setText(FormatterFactory.fmtCurrencyNoSymbol(pItem.getTaux()));
-        timTF.setText(FormatterFactory.fmtCurrencyNoSymbol(pItem.getDuree()));
-        amoTF.setText(FormatterFactory.fmtCurrencyNoSymbol(pItem.getAmount()));
-        amoCB.setSelected(pItem.getLoanType() != LoanItem.LoanType.MONTANT);
-        tauCB.setSelected(pItem.getLoanType() != LoanItem.LoanType.TAUX);
-        timCB.setSelected(pItem.getLoanType() != LoanItem.LoanType.DUREE);
-        monCB.setSelected(pItem.getLoanType() != LoanItem.LoanType.MENSUALITE);
+    public void itemChanged(Double lMensHorsAss,
+                            Double lMensAss ,
+                            Float duree ,
+                            Float amount ,
+                            Float frais ,
+                            Double lTauxEff ,
+                            Float salary,
+                            Float insurance ,
+                            Double lNotFee ,
+                            Float mensualite ,
+                            Float taux ,
+                            boolean isMontant ,
+                            boolean isTaux ,
+                            boolean isDuree ,
+                            boolean isMensualite) {
+        monTF.setText(FormatterFactory.fmtCurrencyNoSymbol(mensualite));
+        tauTF.setText(FormatterFactory.fmtCurrencyNoSymbol(taux));
+        timTF.setText(FormatterFactory.fmtCurrencyNoSymbol(duree));
+        amoTF.setText(FormatterFactory.fmtCurrencyNoSymbol(amount));
+        amoCB.setSelected(isMontant);
+        tauCB.setSelected(isTaux);
+        timCB.setSelected(isDuree);
+        monCB.setSelected(isMensualite);
         monTF.setEditable(!controler.isDiffed());
         tauTF.setEditable(!controler.isDiffed());
         timTF.setEditable(!controler.isDiffed());

@@ -83,15 +83,28 @@ public class OptionPanel extends JPanel implements ChangeListener {
     /**
      * Fill the components with their respective values
      *
-     * @param pItem the Loan item corresponding to this panel
      */
     @Override
-    public void itemChanged(final LoanItem pItem) {
-        afeTF.setText(FormatterFactory.fmtCurrencyNoSymbol(pItem.getFrais()));
-        assTF.setText(FormatterFactory.fmtCurrencyNoSymbol(pItem.getInsurance()));
-        Double lNotFee = CalcLoanItem.computeNotaryFee(pItem);
+    public void itemChanged(Double lMensHorsAss,
+                            Double lMensAss ,
+                            Float duree ,
+                            Float amount ,
+                            Float frais ,
+                            Double lTauxEff ,
+                            Float salary,
+                            Float insurance ,
+                            Double lNotFee ,
+                            Float mensualite ,
+                            Float taux ,
+                            boolean isMontant ,
+                            boolean isTaux ,
+                            boolean isDuree ,
+                            boolean isMensualite) {
+        afeTF.setText(FormatterFactory.fmtCurrencyNoSymbol(frais));
+        assTF.setText(FormatterFactory.fmtCurrencyNoSymbol(insurance));
+
         notTF.setText(FormatterFactory.fmtCurrencyNoSymbol(lNotFee.floatValue()));
-        salTF.setText(FormatterFactory.fmtCurrencyNoSymbol(pItem.getSalary()));
+        salTF.setText(FormatterFactory.fmtCurrencyNoSymbol(salary));
         afeTF.setEditable(!controler.isDiffed());
         assTF.setEditable(!controler.isDiffed());
         notTF.setEditable(!controler.isDiffed());

@@ -13,7 +13,20 @@ public interface ChangeListener {
     /**
      * Function should be fired when the item has changed
      *
-     * @param pItem the changed item
      */
-    void itemChanged(final LoanItem pItem);
+    void itemChanged(Double lMensHorsAss,
+    Double lMensAss ,
+    Float duree ,
+    Float amount ,
+    Float frais ,
+    Double lTauxEff ,
+    Float salary,
+    Float insurance ,
+    Double lNotFee ,
+    Float mensualite ,
+    Float taux ,
+    boolean isMontant ,
+    boolean isTaux ,
+    boolean isDuree ,
+    boolean isMensualite);
 }

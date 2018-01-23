@@ -13,8 +13,6 @@ public interface DiffListener {
     /**
      * Compute the real difference between two loan items
      *
-     * @param pItem1 the first loan item
-     * @param pItem2 the second loan item
      */
-    void itemDiffed(final LoanItem pItem1, final LoanItem pItem2);
+    void itemDiffed(Double lDiffMensHorsAss,Double lDiffMensAss,Double lDiffMens,Double lDiffCoutHorsAss,Double lDiffCoutAss,Double lDiffCout,Double lDiffTauxEff,Double lDiffPctSalary,Double lDiffPerYear);
 }
