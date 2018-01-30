@@ -32,7 +32,6 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import loanmain.CalcLoanItem;
-import loanmain.LoanControler;
 import loanmain.LoanItem;
 import loanmain.LoanModel;
 import loanutils.FrameUtils;

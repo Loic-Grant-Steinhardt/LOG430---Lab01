@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import loanmain.CalcLoanItem;
 import loanmain.ChangeListener;
-import loanmain.LoanControler;
 import loanmain.LoanItem;
 import loanutils.FloatJTextField;
 import loanutils.FormatterFactory;

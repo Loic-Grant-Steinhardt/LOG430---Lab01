@@ -9,9 +9,11 @@
  * <li>Controler updates the Entry and Option panels (with the correct LoanItem number)
  * </ol>
  */
-package loanmain;
+package loangui;
 
-import static loanmain.LoanItem.LoanType.DUREE;
+import loanmain.LoanItem;
+import loanmain.CalcLoanItem;
+
 
 /**
  * Loan controler that makes the MVC model complete.<BR>
