@@ -31,7 +31,10 @@ import javax.swing.JTabbedPane;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import com.google.common.eventbus.EventBus;
 import loanmain.CalcLoanItem;
+import loanmain.HelloEvent;
 import loanmain.LoanItem;
 import loanmain.LoanModel;
 import loanutils.FrameUtils;
@@ -103,6 +106,12 @@ public class LoanFrame extends JFrame {
      */
     private LoanControler controler = new LoanControler();
 
+    private EventBus eventBus;
+
+    private LoanItem lItem;
+
+    private TabbedPanel lTabbedPanel1,lTabbedPanel2;
+
     /**
      * Constructor
      */
@@ -110,6 +119,16 @@ public class LoanFrame extends JFrame {
         entryPanel = new EntryPanel(controler);
         optionPanel = new OptionPanel(controler);
         init();
+    }
+
+    public LoanFrame(EventBus eventBus) {
+        this.eventBus=eventBus;
+        entryPanel = new EntryPanel(controler);
+        optionPanel = new OptionPanel(controler);
+        eventBus.register(entryPanel);
+        eventBus.register(optionPanel);
+        init();
+
     }
 
     /**
@@ -130,18 +149,24 @@ public class LoanFrame extends JFrame {
         //
         tabPane.addMouseListener(createPopupListener());
         tabPane.addChangeListener(new ChangeListener() {
+
             @Override
             public void stateChanged(ChangeEvent pEvent) {
                 JTabbedPane lPane = (JTabbedPane) pEvent.getSource();
                 int lIndex = lPane.getSelectedIndex();
                 if (lIndex > -1) {
-                    LoanItem lItem = model.get(lIndex);
+                    lItem = model.get(lIndex);
                     controler.setCurrentItem(lItem);
                     boolean lIsDiffed = model.isDiffed(lItem);
+                    entryPanel.setLoanItem(lItem);
+                    optionPanel.setLoanItem(lItem);
+                    //lTabbedPanel1.setLoanItem(lItem);
+                    //lTabbedPanel2.setLoanItem(lItem);
                     cloneBtn.getAction().setEnabled(!lIsDiffed);
                     simulBtn.getAction().setEnabled(!lIsDiffed);
                     controler.setDiffed(lIsDiffed);
-                    entryPanel.itemChanged( lItem.lMensHorsAssIC,
+                    eventBus.post(new HelloEvent(this, "entryPanel activé !!"));
+                   /* entryPanel.itemChanged( lItem.lMensHorsAssIC,
                             lItem.lMensAssIC ,
                             lItem.dureeIC ,
                             lItem.amountIC ,
@@ -155,8 +180,9 @@ public class LoanFrame extends JFrame {
                             lItem.isMontantIC ,
                             lItem.isTauxIC ,
                             lItem.isDureeIC,
-                            lItem.isMensualiteIC);
-                    optionPanel.itemChanged( lItem.lMensHorsAssIC,
+                            lItem.isMensualiteIC);*/
+                    eventBus.post(new HelloEvent(this, "optionPanel activé !!"));
+                    /*optionPanel.itemChanged( lItem.lMensHorsAssIC,
                             lItem.lMensAssIC ,
                             lItem.dureeIC ,
                             lItem.amountIC ,
@@ -170,11 +196,13 @@ public class LoanFrame extends JFrame {
                             lItem.isMontantIC ,
                             lItem.isTauxIC ,
                             lItem.isDureeIC,
-                            lItem.isMensualiteIC);;
+                            lItem.isMensualiteIC);;*/
                     if (lIsDiffed) {
-                        ((TabbedPanel) tabPane.getSelectedComponent()).itemDiffed( lItem.lDiffMensHorsAss, lItem.lDiffMensAss, lItem.lDiffMens, lItem.lDiffCoutHorsAss, lItem.lDiffCoutAss, lItem.lDiffCout, lItem.lDiffTauxEff, lItem.lDiffPctSalary,lItem.lDiffPerYear);
+                        eventBus.post(new HelloEvent(this, "tabbedPanel diffed activé !!"));
+                        //((TabbedPanel) tabPane.getSelectedComponent()).itemDiffed( lItem.lDiffMensHorsAss, lItem.lDiffMensAss, lItem.lDiffMens, lItem.lDiffCoutHorsAss, lItem.lDiffCoutAss, lItem.lDiffCout, lItem.lDiffTauxEff, lItem.lDiffPctSalary,lItem.lDiffPerYear);
                     } else {
-                        ((TabbedPanel) tabPane.getSelectedComponent()).itemChanged( lItem.lMensHorsAssIC,
+                        eventBus.post(new HelloEvent(this, "tabbedPanel changed activé !!"));
+                        /*((TabbedPanel) tabPane.getSelectedComponent()).itemChanged( lItem.lMensHorsAssIC,
                                 lItem.lMensAssIC ,
                                 lItem.dureeIC ,
                                 lItem.amountIC ,
@@ -188,7 +216,7 @@ public class LoanFrame extends JFrame {
                                 lItem.isMontantIC ,
                                 lItem.isTauxIC ,
                                 lItem.isDureeIC,
-                                lItem.isMensualiteIC);
+                                lItem.isMensualiteIC);*/
                     }
                 }
             }
@@ -394,14 +422,16 @@ public class LoanFrame extends JFrame {
         int lNb = tabPane.getTabCount();
         pItem.addChangeListener(entryPanel);
         pItem.addChangeListener(optionPanel);
-        TabbedPanel lTabbedPanel = new TabbedPanel();
-        pItem.addChangeListener(lTabbedPanel);
+        TabbedPanel lTabbedPanel1 = new TabbedPanel();
+        eventBus.register(lTabbedPanel1);
+        lTabbedPanel1.setLoanItem(pItem);
+        pItem.addChangeListener(lTabbedPanel1);
         if (pItem.getName() == null) {
             pItem.setName(String.valueOf(lNb + 1));
         }
         model.add(pItem);
         Icon lIcon = FrameUtils.createImageIcon("emprunt.png", "");
-        tabPane.addTab(pItem.getName(), lIcon, lTabbedPanel, translate("tabTooltip"));
+        tabPane.addTab(pItem.getName(), lIcon, lTabbedPanel1, translate("tabTooltip"));
     }
 
     /**
@@ -414,11 +444,13 @@ public class LoanFrame extends JFrame {
     private void addItem(final LoanItem pItem, final LoanItem pItem1, final LoanItem pItem2) {
         pItem.addChangeListener(entryPanel);
         pItem.addChangeListener(optionPanel);
-        TabbedPanel lTabbedPanel = new TabbedPanel();
-        pItem.addDiffListener(lTabbedPanel);
+        TabbedPanel lTabbedPanel2 = new TabbedPanel();
+        eventBus.register(lTabbedPanel2);
+        lTabbedPanel2.setLoanItem(pItem2);
+        pItem.addDiffListener(lTabbedPanel2);
         model.add(pItem, pItem1, pItem2);
         Icon lIcon = FrameUtils.createImageIcon("emprunt.png", "");
-        tabPane.addTab(pItem.getName(), lIcon, lTabbedPanel, translate("tabTooltip"));
+        tabPane.addTab(pItem.getName(), lIcon, lTabbedPanel2, translate("tabTooltip"));
     }
 
     /**

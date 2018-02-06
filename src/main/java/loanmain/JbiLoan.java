@@ -3,6 +3,7 @@
  */
 package loanmain;
 
+import com.google.common.eventbus.EventBus;
 import loangui.ChooseLanguageDialog;
 import loangui.LoanFrame;
 import java.awt.event.WindowAdapter;
@@ -37,6 +38,7 @@ public class JbiLoan extends WindowAdapter {
      * Constructor
      */
     public JbiLoan() {
+        EventBus eventBus = new EventBus();
         ChooseLanguageDialog lDialog = new ChooseLanguageDialog(null);
         lDialog.addWindowListener(JbiLoan.this);
         lDialog.setVisible(true);
@@ -44,7 +46,7 @@ public class JbiLoan extends WindowAdapter {
         MyBundle.init(lDialog.getUserLocale());
         FormatterFactory.setLocale(lDialog.getUserLocale());
         //Launches the main frame
-        LoanFrame lFrame = new LoanFrame();
+        LoanFrame lFrame = new LoanFrame(eventBus);
         lFrame.addWindowListener(JbiLoan.this);
         lFrame.setVisible(true);
     }

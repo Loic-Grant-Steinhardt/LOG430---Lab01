@@ -8,10 +8,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import loanmain.CalcLoanItem;
-import loanmain.ChangeListener;
-import loanmain.DiffListener;
-import loanmain.LoanItem;
+
+import com.google.common.eventbus.Subscribe;
+import loanmain.*;
 import loanutils.FormatterFactory;
 import loanutils.FrameUtils;
 import static loanutils.MyBundle.translate;
@@ -61,6 +60,38 @@ public class TabbedPanel extends JPanel implements ChangeListener, DiffListener 
      */
     private JLabel ytaLabel = new JLabel("0");
 
+    public LoanItem lItem;
+
+
+    @Subscribe
+    public void someoneSaidHello(HelloEvent event) throws InterruptedException {
+        if(event.getMessage()=="tabbedPanel changed activé !!"){
+        System.out.println("Source of event said \"" + event.getMessage() + "\"");
+        itemChanged( lItem.lMensHorsAssIC,
+                lItem.lMensAssIC ,
+                lItem.dureeIC ,
+                lItem.amountIC ,
+                lItem.fraisIC ,
+                lItem.lTauxEffIC ,
+                lItem.salaryIC,
+                lItem.insuranceIC ,
+                lItem.lNotFeeIC ,
+                lItem.mensualiteIC ,
+                lItem.tauxIC ,
+                lItem.isMontantIC ,
+                lItem.isTauxIC ,
+                lItem.isDureeIC,
+                lItem.isMensualiteIC);
+        }else if(event.getMessage()=="tabbedPanel diffed activé !!"){
+            System.out.println("Source of event said \"" + event.getMessage() + "\"");
+        itemDiffed( lItem.lDiffMensHorsAss, lItem.lDiffMensAss, lItem.lDiffMens, lItem.lDiffCoutHorsAss, lItem.lDiffCoutAss, lItem.lDiffCout, lItem.lDiffTauxEff, lItem.lDiffPctSalary,lItem.lDiffPerYear);
+    }
+    }
+
+    public void setLoanItem(LoanItem lItem){
+        this.lItem=lItem;
+    }
+
     /**
      * Constructor
      */
@@ -75,7 +106,6 @@ public class TabbedPanel extends JPanel implements ChangeListener, DiffListener 
      * Fill the components with their respective values
      *
      */
-    @Override
     public void itemChanged(Double lMensHorsAss,
                             Double lMensAss ,
                             Float duree ,
@@ -121,7 +151,6 @@ public class TabbedPanel extends JPanel implements ChangeListener, DiffListener 
      * Compute the real difference between two loan items
      *
      */
-    @Override
     public void itemDiffed(Double lDiffMensHorsAss,Double lDiffMensAss,Double lDiffMens,Double lDiffCoutHorsAss,Double lDiffCoutAss,Double lDiffCout,Double lDiffTauxEff,Double lDiffPctSalary,Double lDiffPerYear) {
         menLabel.setText(FormatterFactory.fmtCurrencyNoSymbol(lDiffMensHorsAss.floatValue()));
         assLabel.setText(FormatterFactory.fmtCurrencyNoSymbol(lDiffMensAss.floatValue()));

@@ -3,12 +3,14 @@
  */
 package loanmain;
 
+
 /**
  * Components that are interested in LoanItem changes should implement this interface.
  *
  * @author jean-blas imbert
  */
 public interface ChangeListener {
+
 
     /**
      * Function should be fired when the item has changed
@@ -29,4 +31,5 @@ public interface ChangeListener {
     boolean isTaux ,
     boolean isDuree ,
     boolean isMensualite);
+
 }

@@ -13,7 +13,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import com.google.common.eventbus.Subscribe;
 import loanmain.ChangeListener;
+import loanmain.HelloEvent;
 import loanmain.LoanItem;
 import loanutils.FloatJTextField;
 import loanutils.FormatterFactory;
@@ -69,6 +72,34 @@ public class EntryPanel extends JPanel implements ChangeListener {
      */
     private Float curValue = null;
 
+    public LoanItem lItem;
+
+
+    @Subscribe
+    public void someoneSaidHello(HelloEvent event) throws InterruptedException {
+        if(event.getMessage()=="entryPanel activé !!"){
+        System.out.println("Source of event said \"" + event.getMessage() + "\"");
+        itemChanged( lItem.lMensHorsAssIC,
+                lItem.lMensAssIC ,
+                lItem.dureeIC ,
+                lItem.amountIC ,
+                lItem.fraisIC ,
+                lItem.lTauxEffIC ,
+                lItem.salaryIC,
+                lItem.insuranceIC ,
+                lItem.lNotFeeIC ,
+                lItem.mensualiteIC ,
+                lItem.tauxIC ,
+                lItem.isMontantIC ,
+                lItem.isTauxIC ,
+                lItem.isDureeIC,
+                lItem.isMensualiteIC);
+        }
+    }
+
+    public void setLoanItem(LoanItem lItem){
+        this.lItem=lItem;
+    }
     /**
      * Constructor
      */
@@ -84,12 +115,12 @@ public class EntryPanel extends JPanel implements ChangeListener {
         timCB.addActionListener(lAL);
         //Add text field focus listener
         FocusListener lFocusListener = new FocusListener() {
-            @Override
+
             public void focusGained(FocusEvent pEvent) {
                 curValue = ((FloatJTextField) pEvent.getSource()).getValue();
             }
 
-            @Override
+
             public void focusLost(FocusEvent pEvent) {
                 Float lNewValue = ((FloatJTextField) pEvent.getSource()).getValue();
                 if ((curValue == null && lNewValue != null) || (curValue != null && !curValue.equals(lNewValue))) {
@@ -171,7 +202,7 @@ public class EntryPanel extends JPanel implements ChangeListener {
      * Fill the components with their respective values
      *
      */
-    @Override
+
     public void itemChanged(Double lMensHorsAss,
                             Double lMensAss ,
                             Float duree ,
