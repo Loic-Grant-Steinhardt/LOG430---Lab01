@@ -197,7 +197,12 @@ public class LoanFrame extends JFrame {
                             lItem.isTauxIC ,
                             lItem.isDureeIC,
                             lItem.isMensualiteIC);;*/
+
                     if (lIsDiffed) {
+                        lTabbedPanel2.setpItem1(model.getFirst(lItem));
+                        lTabbedPanel2.setpItem2(model.getSecond(lItem));
+                        lTabbedPanel1.setpItem1(model.getFirst(lItem));
+                        lTabbedPanel1.setpItem2(model.getSecond(lItem));
                         eventBus.post(new HelloEvent(this, "tabbedPanel diffed activé !!"));
                         //((TabbedPanel) tabPane.getSelectedComponent()).itemDiffed( lItem.lDiffMensHorsAss, lItem.lDiffMensAss, lItem.lDiffMens, lItem.lDiffCoutHorsAss, lItem.lDiffCoutAss, lItem.lDiffCout, lItem.lDiffTauxEff, lItem.lDiffPctSalary,lItem.lDiffPerYear);
                     } else {
@@ -422,7 +427,7 @@ public class LoanFrame extends JFrame {
         int lNb = tabPane.getTabCount();
         pItem.addChangeListener(entryPanel);
         pItem.addChangeListener(optionPanel);
-        TabbedPanel lTabbedPanel1 = new TabbedPanel();
+        lTabbedPanel1 = new TabbedPanel();
         eventBus.register(lTabbedPanel1);
         lTabbedPanel1.setLoanItem(pItem);
         pItem.addChangeListener(lTabbedPanel1);
@@ -444,13 +449,14 @@ public class LoanFrame extends JFrame {
     private void addItem(final LoanItem pItem, final LoanItem pItem1, final LoanItem pItem2) {
         pItem.addChangeListener(entryPanel);
         pItem.addChangeListener(optionPanel);
-        TabbedPanel lTabbedPanel2 = new TabbedPanel();
+        lTabbedPanel2 = new TabbedPanel();
         eventBus.register(lTabbedPanel2);
-        lTabbedPanel2.setLoanItem(pItem);
         pItem.addDiffListener(lTabbedPanel2);
         model.add(pItem, pItem1, pItem2);
         Icon lIcon = FrameUtils.createImageIcon("emprunt.png", "");
         tabPane.addTab(pItem.getName(), lIcon, lTabbedPanel2, translate("tabTooltip"));
+        lTabbedPanel2.setLoanItem(pItem);
+
     }
 
     /**

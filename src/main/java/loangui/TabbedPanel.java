@@ -60,7 +60,7 @@ public class TabbedPanel extends JPanel implements ChangeListener, DiffListener 
      */
     private JLabel ytaLabel = new JLabel("0");
 
-    public LoanItem lItem;
+    public LoanItem lItem,pItem1,pItem2;
 
 
     @Subscribe
@@ -84,12 +84,19 @@ public class TabbedPanel extends JPanel implements ChangeListener, DiffListener 
                 lItem.isMensualiteIC);
         }else if(event.getMessage()=="tabbedPanel diffed activé !!"){
             System.out.println("Source of event said \"" + event.getMessage() + "\"");
-        itemDiffed( lItem.lDiffMensHorsAss, lItem.lDiffMensAss, lItem.lDiffMens, lItem.lDiffCoutHorsAss, lItem.lDiffCoutAss, lItem.lDiffCout, lItem.lDiffTauxEff, lItem.lDiffPctSalary,lItem.lDiffPerYear);
+            lItem.fireItemDiffed(pItem1,pItem2);
+       // itemDiffed( lItem.lDiffMensHorsAss, lItem.lDiffMensAss, lItem.lDiffMens, lItem.lDiffCoutHorsAss, lItem.lDiffCoutAss, lItem.lDiffCout, lItem.lDiffTauxEff, lItem.lDiffPctSalary,lItem.lDiffPerYear);
     }
     }
 
     public void setLoanItem(LoanItem lItem){
         this.lItem=lItem;
+    }
+    public void setpItem1(LoanItem pItem){
+        this.pItem1=pItem;
+    }
+    public void setpItem2(LoanItem pItem){
+        this.pItem2=pItem;
     }
 
     /**
@@ -162,6 +169,7 @@ public class TabbedPanel extends JPanel implements ChangeListener, DiffListener 
         pctLabel.setText(FormatterFactory.fmtCurrencyNoSymbol(lDiffPctSalary.floatValue()));
         ytaLabel.setText(FormatterFactory.fmtCurrencyNoSymbol(lDiffPerYear.floatValue()));
     }
+
 
     /**
      * Construct the panel that contains the monthly result components

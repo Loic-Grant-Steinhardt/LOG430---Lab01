@@ -307,10 +307,10 @@ public final class LoanItem implements Cloneable, Serializable {
      * @param pItem2 the second loan item
      */
     public void fireItemDiffed(final LoanItem pItem1, final LoanItem pItem2) {
-        for (DiffListener lListener : diffListeners) {
+        //for (DiffListener lListener : diffListeners) {
             itemDiffed(pItem1, pItem2);
-            lListener.itemDiffed( lDiffMensHorsAss, lDiffMensAss, lDiffMens, lDiffCoutHorsAss, lDiffCoutAss, lDiffCout, lDiffTauxEff, lDiffPctSalary,lDiffPerYear);
-        }
+        (diffListeners.get(diffListeners.size()-1)).itemDiffed( lDiffMensHorsAss, lDiffMensAss, lDiffMens, lDiffCoutHorsAss, lDiffCoutAss, lDiffCout, lDiffTauxEff, lDiffPctSalary,lDiffPerYear);
+       // }
     }
 
     private void itemDiffed(final LoanItem pItem1, final LoanItem pItem2) {
