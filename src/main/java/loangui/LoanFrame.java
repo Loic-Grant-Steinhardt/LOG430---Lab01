@@ -446,7 +446,7 @@ public class LoanFrame extends JFrame {
         pItem.addChangeListener(optionPanel);
         TabbedPanel lTabbedPanel2 = new TabbedPanel();
         eventBus.register(lTabbedPanel2);
-        lTabbedPanel2.setLoanItem(pItem2);
+        lTabbedPanel2.setLoanItem(pItem);
         pItem.addDiffListener(lTabbedPanel2);
         model.add(pItem, pItem1, pItem2);
         Icon lIcon = FrameUtils.createImageIcon("emprunt.png", "");
