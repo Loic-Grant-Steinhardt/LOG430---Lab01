@@ -2,7 +2,7 @@ package loanmain;
 
 import java.util.EventObject;
 
-public class HelloEvent extends EventObject {
+public class HelloEvent extends EventObject{
 
     private String message;
 

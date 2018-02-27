@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import com.google.common.eventbus.Subscribe;
 import loanmain.ChangeListener;
 import loanmain.HelloEvent;
+import loanmain.InterfaceLoanController;
 import loanmain.LoanItem;
 import loanutils.FloatJTextField;
 import loanutils.FormatterFactory;

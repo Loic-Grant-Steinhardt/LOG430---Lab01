@@ -33,10 +33,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.google.common.eventbus.EventBus;
-import loanmain.CalcLoanItem;
-import loanmain.HelloEvent;
-import loanmain.LoanItem;
-import loanmain.LoanModel;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import loanmain.*;
 import loanutils.FrameUtils;
 import loanutils.JbiBtnFactory;
 import static loanutils.MyBundle.translate;
@@ -106,7 +105,7 @@ public class LoanFrame extends JFrame {
      */
     private LoanControler controler = new LoanControler();
 
-    private EventBus eventBus;
+    private EventBusLocal eventBus;
 
     private LoanItem lItem;
 
@@ -121,10 +120,12 @@ public class LoanFrame extends JFrame {
         init();
     }
 
-    public LoanFrame(EventBus eventBus) {
+    public LoanFrame(EventBusLocal eventBus,Injector injector) {
+        InterfaceLoanController loanControllerStore = injector.getInstance( InterfaceLoanController.class );
+        loanControllerStore.save(controler);
         this.eventBus=eventBus;
-        entryPanel = new EntryPanel(controler);
-        optionPanel = new OptionPanel(controler);
+        entryPanel = new EntryPanel(loanControllerStore.load(1));
+        optionPanel = new OptionPanel(loanControllerStore.load(1));
         eventBus.register(entryPanel);
         eventBus.register(optionPanel);
         init();

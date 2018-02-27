@@ -11,8 +11,12 @@
  */
 package loangui;
 
-import loanmain.LoanItem;
-import loanmain.CalcLoanItem;
+import loanmain.*;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -27,8 +31,11 @@ import loanmain.CalcLoanItem;
  *
  * @author jean-blas imbert
  */
-public class LoanControler {
+@Singleton
+public class LoanControler implements InterfaceLoanController {
 
+    private final Map<Integer,LoanControler> loanControllerMap;
+    private Integer id;
     /**
      * The data model current item
      */
@@ -38,6 +45,36 @@ public class LoanControler {
      */
     private boolean mIsDiffed = false;
 
+    @Inject
+    public LoanControler(){
+        loanControllerMap = new HashMap<Integer, LoanControler>();
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public boolean exists(Integer id) {
+        return loanControllerMap.containsKey( id );
+    }
+
+    public LoanControler load(Integer id) {
+        LoanControler s = loanControllerMap.get(id);
+        return s;
+    }
+
+    public LoanControler save(LoanControler p) {
+        if( p.getId() == null ) {
+            p.setId( loanControllerMap.size() + 1 );
+        }
+        loanControllerMap.put( p.getId(), p );
+        return p;
+    }
     /**
      * Set the loan type to the current item
      *

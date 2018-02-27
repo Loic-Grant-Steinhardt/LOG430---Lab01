@@ -5,6 +5,7 @@ package loanmain;
 
 import com.google.common.eventbus.EventBus;
 import loangui.ChooseLanguageDialog;
+import loangui.LoanControler;
 import loangui.LoanFrame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -12,6 +13,8 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import loanutils.FormatterFactory;
 import loanutils.MyBundle;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 /**
  * The main class
@@ -38,7 +41,10 @@ public class JbiLoan extends WindowAdapter {
      * Constructor
      */
     public JbiLoan() {
-        EventBus eventBus = new EventBus();
+        Injector injector = Guice.createInjector(new InterfaceModel());
+        InterfaceEventBus eventBusStore = injector.getInstance( InterfaceEventBus.class );
+        EventBusLocal e = new EventBusLocal();
+        eventBusStore.save(e);
         ChooseLanguageDialog lDialog = new ChooseLanguageDialog(null);
         lDialog.addWindowListener(JbiLoan.this);
         lDialog.setVisible(true);
@@ -46,7 +52,7 @@ public class JbiLoan extends WindowAdapter {
         MyBundle.init(lDialog.getUserLocale());
         FormatterFactory.setLocale(lDialog.getUserLocale());
         //Launches the main frame
-        LoanFrame lFrame = new LoanFrame(eventBus);
+        LoanFrame lFrame = new LoanFrame(eventBusStore.load(1),injector);
         lFrame.addWindowListener(JbiLoan.this);
         lFrame.setVisible(true);
     }

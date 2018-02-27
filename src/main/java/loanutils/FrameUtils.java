@@ -26,7 +26,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import loangui.LoanControler;
 import loanmain.CalcLoanItem;
+import loanmain.InterfaceLoanController;
+import loanmain.InterfaceModel;
 import loanmain.LoanItem;
 import static loanutils.MyBundle.translate;
 
@@ -36,7 +42,6 @@ import static loanutils.MyBundle.translate;
  * @author jimbert
  */
 public abstract class FrameUtils {
-
     /**
      * Centers the frame on the screen.
      *
