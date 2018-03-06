@@ -12,6 +12,7 @@
 package loangui;
 
 import loanmain.*;
+import org.apache.log4j.ConsoleAppender;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -36,6 +37,15 @@ public class LoanControler implements InterfaceLoanController {
 
     private final Map<Integer,LoanControler> loanControllerMap;
     private Integer id;
+
+    public LoanItem getItem() {
+        return item;
+    }
+
+    public void setItem(LoanItem item) {
+        this.item = item;
+    }
+
     /**
      * The data model current item
      */
